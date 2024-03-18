@@ -30,18 +30,18 @@ public abstract class ContainerBase
         return serialNumber;
     }
 
-    public double UnloadCargo()
+    public virtual double? UnloadCargo()
     {
         var weightToUnload = CurrCargoWeight;
         CurrCargoWeight = 0;
         return weightToUnload;
     }
 
-    public double LoadCargo(double weightToLoad)
+    public virtual double LoadCargo(double weightToLoad)
     {
-        double newWeight = CurrCargoWeight + weightToLoad;
-        if (newWeight > MaxCapacity) throw new OverfillException("Masa ładunku jest za duża.");
-        CurrCargoWeight = newWeight;
+        var newWeight = CurrCargoWeight + weightToLoad;
+        if (newWeight > MaxCapacity) throw new OverfillException("Masa ladunku jest za duza.");
+        
         return newWeight;
     }
 }
