@@ -16,10 +16,10 @@ public class LiquidContainer : ContainerBase , IHazardNotifier
 
     public string Notify(DangerCause cause)
     {
-        var msg = "";
-        msg = cause == DangerCause.DangerousCargoMoreThan50 ? 
+        var msg = cause == DangerCause.DangerousCargoMoreThan50 ? 
             "Containers which store dangerous cargo cannot be filled with more than 50% of their capacity." :
             "Containers cannot be filled with more than 90% of their capacity.";
+        
         return msg +" Loading failed.";
     }
 

@@ -29,14 +29,16 @@ public abstract class ContainerBase
         _nextId++;
         return serialNumber;
     }
-
-    public virtual double? UnloadCargo()
+    
+    // returns a double indicating how much weight has been unloaded
+    public virtual double UnloadCargo()
     {
         var weightToUnload = CurrCargoWeight;
         CurrCargoWeight = 0;
         return weightToUnload;
     }
 
+    // returns a double indicating how much weight has been loaded
     public virtual double LoadCargo(double weightToLoad)
     {
         var newWeight = CurrCargoWeight + weightToLoad;
