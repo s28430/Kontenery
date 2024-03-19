@@ -3,16 +3,15 @@ using Containers.Interfaces;
 
 namespace Containers.Models;
 
-public class LiquidContainer : ContainerBase , IHazardNotifier
+public class LiquidContainer
+    (int height,
+    double weight,
+    int depth,
+    double maxCapacity,
+    bool storesDangerous)
+    : ContainerBase("L", height, weight, depth, maxCapacity), IHazardNotifier
 {
-    public bool StoresDangerous { get; }
-
-    public LiquidContainer
-        (double currCargoWeight, int height, double weight, int depth, double maxCapacity, bool storesDangerous) 
-        : base("L", currCargoWeight, height, weight, depth, maxCapacity)
-    {
-        StoresDangerous = storesDangerous;
-    }
+    public bool StoresDangerous { get; } = storesDangerous;
 
     public string Notify(DangerCause cause)
     {
@@ -20,7 +19,14 @@ public class LiquidContainer : ContainerBase , IHazardNotifier
             "Containers which store dangerous cargo cannot be filled with more than 50% of their capacity." :
             "Containers cannot be filled with more than 90% of their capacity.";
         
-        return msg +" Loading failed.";
+        return msg + " Loading failed.";
+    }
+
+    public override double UnloadCargo()
+    {
+        var weightToUnload = base.UnloadCargo();
+        CurrCargoWeight = 0;
+        return weightToUnload;
     }
 
     public override double LoadCargo(double weightToLoad)
@@ -35,6 +41,7 @@ public class LiquidContainer : ContainerBase , IHazardNotifier
         
         else CurrCargoWeight = newWeight;
         
+        // current cargo weight stays the same if dangerous situation occurred
         return CurrCargoWeight;
     }
 }
