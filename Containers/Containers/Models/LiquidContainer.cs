@@ -1,4 +1,5 @@
 using Containers.Enums;
+using Containers.Exceptions;
 using Containers.Interfaces;
 
 namespace Containers.Models;
@@ -15,23 +16,26 @@ public class LiquidContainer
 
     public string Notify(DangerCause cause)
     {
-        var msg = cause == DangerCause.DangerousCargoMoreThan50 ? 
+        var msg = "Loading failed for container " + SerialNumber + ":\n";
+        msg += cause == DangerCause.DangerousCargoMoreThan50 ? 
             "Containers which store dangerous cargo cannot be filled with more than 50% of their capacity." :
             "Containers cannot be filled with more than 90% of their capacity.";
         
-        return msg + " Loading failed.";
+        return msg;
     }
 
     public override double UnloadCargo()
     {
-        var weightToUnload = base.UnloadCargo();
+        var weightToUnload = CurrCargoWeight;
         CurrCargoWeight = 0;
         return weightToUnload;
     }
 
     public override double LoadCargo(double weightToLoad)
     {
-        var newWeight = base.LoadCargo(weightToLoad);
+        var newWeight = CurrCargoWeight + weightToLoad;
+        if (newWeight > MaxCapacity) 
+            throw new OverfillException("Cargo weight is bigger than the container's capacity. Loading failed.");
         
         if (StoresDangerous && newWeight > MaxCapacity * 0.5)
             Console.WriteLine(Notify(DangerCause.DangerousCargoMoreThan50));

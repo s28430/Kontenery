@@ -25,18 +25,8 @@ public abstract class ContainerBase(
     }
     
     // returns a double indicating how much weight has been unloaded
-    public virtual double UnloadCargo()
-    {
-        return CurrCargoWeight;
-    }
+    public abstract double UnloadCargo();
 
-    // returns a double indicating how much weight has been loaded
-    public virtual double LoadCargo(double weightToLoad)
-    {
-        var newWeight = CurrCargoWeight + weightToLoad;
-        if (newWeight > MaxCapacity) 
-            throw new OverfillException("Cargo weight is bigger than the container's capacity. Loading failed.");
-        
-        return newWeight;
-    }
+    // returns a new weight of the container
+    public abstract double LoadCargo(double weightToLoad);
 }
