@@ -5,7 +5,7 @@ using Containers.Interfaces;
 namespace Containers.Models;
 
 public class GasContainer(int height, double weight, int depth, double maxCapacity, double pressure) :
-    ContainerBase("G", height, weight, depth, maxCapacity), IHazardNotifier
+    BaseContainer("G", height, weight, depth, maxCapacity), IHazardNotifier
 {
     public double Pressure { get; } = pressure;
 

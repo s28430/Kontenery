@@ -10,7 +10,7 @@ public class LiquidContainer
     int depth,
     double maxCapacity,
     bool storesDangerous)
-    : ContainerBase("L", height, weight, depth, maxCapacity), IHazardNotifier
+    : BaseContainer("L", height, weight, depth, maxCapacity), IHazardNotifier
 {
     public bool StoresDangerous { get; } = storesDangerous;
 

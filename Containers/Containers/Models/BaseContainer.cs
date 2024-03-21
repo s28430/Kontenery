@@ -1,8 +1,6 @@
-using Containers.Exceptions;
-
 namespace Containers.Models;
 
-public abstract class ContainerBase(
+public abstract class BaseContainer(
     string type,
     int height,
     double weight,
@@ -10,6 +8,7 @@ public abstract class ContainerBase(
     double maxCapacity)
 {
     private static int _nextId = 1;
+    
     public double CurrCargoWeight { get; protected set; }   // 0
     public int Height { get; } = height; // cm
     public double Weight { get; } = weight; // kg
