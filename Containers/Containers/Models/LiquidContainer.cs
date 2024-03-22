@@ -48,4 +48,9 @@ public class LiquidContainer
         // current cargo weight stays the same if dangerous situation occurred
         return CurrCargoWeight;
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + ", stores dangerous=" + StoresDangerous + ")";
+    }
 }

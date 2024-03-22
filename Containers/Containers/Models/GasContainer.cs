@@ -36,4 +36,9 @@ public class GasContainer(int height, double weight, int depth, double maxCapaci
             "Containers cannot be filled with more than 90% of their capacity.";
         return msg;
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + ", pressure=" + Pressure + ")";
+    }
 }

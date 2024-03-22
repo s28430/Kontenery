@@ -27,4 +27,9 @@ public class RefrigeratedContainer
     {
         throw new NotImplementedException();
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + ", product type=" + ProductType + ")";
+    }
 }

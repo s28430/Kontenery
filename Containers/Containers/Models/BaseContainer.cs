@@ -28,4 +28,12 @@ public abstract class BaseContainer(
 
     // returns a new weight of the container
     public abstract double LoadCargo(double weightToLoad);
+
+    public override string ToString()
+    {
+        return "Container " + SerialNumber + " (max capacity=" + MaxCapacity 
+               + ", own weight=" + Weight + ", curr cargo weight=" + CurrCargoWeight;
+    }
+    
+    
 }
