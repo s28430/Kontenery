@@ -23,6 +23,8 @@ public class GasContainer(int height, double weight, int depth, double maxCapaci
             throw new OverfillException("Cargo weight is bigger than the container's capacity. Loading failed.");
         if (newWeight > MaxCapacity * 0.9)
             Console.WriteLine(Notify(DangerCause.CargoMoreThen90));
+        else CurrCargoWeight = newWeight;
+        
         return newWeight;
     }
 
