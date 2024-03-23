@@ -32,6 +32,11 @@ public class LiquidContainer
         return weightToUnload;
     }
 
+    public double LoadCargo(double weightToLoad)
+    {
+        return LoadCargo(weightToLoad, null);
+    }
+
     public override double LoadCargo(double weightToLoad, Product? product)
     {
         var newWeight = CurrCargoWeight + weightToLoad;

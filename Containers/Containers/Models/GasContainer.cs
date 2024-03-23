@@ -16,6 +16,11 @@ public class GasContainer(int height, double weight, int depth, double maxCapaci
         CurrCargoWeight -= weightToUnload;
         return weightToUnload;
     }
+
+    public double LoadCargo(double weightToLoad)
+    {
+        return LoadCargo(weightToLoad, null);
+    }
     
     public override double LoadCargo(double weightToLoad, Product? product)
     {

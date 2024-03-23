@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Containers.Models;
 
 namespace Containers.Ship;
@@ -122,6 +123,28 @@ public class ContainerShip
         return false;
     }
 
+    public static bool TransferContainer(ContainerShip shipFrom, ContainerShip shipTo,
+        BaseContainer container)
+    {
+        var successfullyRemoved = shipFrom.RemoveContainerFromShip(container);
+
+        // if not removed, return false immediately
+        if (!successfullyRemoved) return false;
+
+        var successFullyAdded = shipTo.LoadContainerToShip(container);
+        
+        if (successFullyAdded) return true;
+        
+        // if not added successfully, add back the container to the first ship
+        shipFrom.LoadContainerToShip(container);
+        return false;
+
+    }
+
+    public IList<BaseContainer> GetContainers()
+    {
+        return _containers.ToImmutableList();
+    }
 
     public override string ToString()
     {
