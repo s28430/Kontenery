@@ -1,16 +1,18 @@
+using System.Collections.Immutable;
 using Containers.Exceptions;
 using Containers.Products;
 
 namespace Containers.Models;
 
 public class RefrigeratedContainer
-    (int height, double weight, int depth, double maxCapacity, ProductType productType, double temperature)
+    (int height, double weight, int depth, double maxCapacity, ProductType productType)
     : BaseContainer("C", height, weight, depth, maxCapacity)
 {
-    public List<Product> Products { get; } = [];
     public ProductType PType { get; } = productType;
 
-    private double _innerTemperature = temperature;
+    private double _innerTemperature = productType.StorageTemperature;
+    
+    private readonly List<Product> _products = [];
     public double InnerTemperature
     {
         get => _innerTemperature;
@@ -19,21 +21,23 @@ public class RefrigeratedContainer
         {
             if (value < PType.StorageTemperature) 
                 throw new TooLowTemperatureException("Cannot set the inner temperature to less than " 
-                                                     + PType.StorageTemperature);
+                                                     + (PType.StorageTemperature - 0.5));
+            _innerTemperature = value;
         }
     }
 
-    public void AddProduct(Product product)
+    public IList<Product> GetProducts()
     {
-        if (PType != product.Type)
-            throw new UnsupportedProductType("Containers storing products of type <"
-                                             + PType + "> cannot store products of any other type.");
-        Products.Add(product);
+        return _products.ToImmutableList();
     }
     
     public override double UnloadCargo()
     {
-        throw new NotImplementedException();
+        var weightToUnload = CurrCargoWeight;
+        CurrCargoWeight = 0;
+        _products.Clear();
+   
+        return weightToUnload;
     }
 
     public override double LoadCargo(double weightToLoad, Product? product)
@@ -44,21 +48,26 @@ public class RefrigeratedContainer
                               "Loading failed.");
             return CurrCargoWeight;
         }
+
         if (PType != product.Type)
-            throw new UnsupportedProductType("Container " + SerialNumber +
-                                             " can store only products with type <" + PType.Name + ">. Loading failed");
-        
+        {
+            Console.WriteLine("Container " + SerialNumber +
+                              " can store only products with type <" + PType + ">. Loading failed");
+            return CurrCargoWeight;
+        }
+
         var newWeight = CurrCargoWeight + weightToLoad;
         if (newWeight > MaxCapacity)
-            throw new OverfillException("Cargo weight is bigger than the container's capacity. Loading failed.");
+            throw new OverfillException(
+                "Cargo weight is bigger than the container's capacity. Loading failed.");
 
         CurrCargoWeight = newWeight;
-        Products.Add(product);
+        _products.Add(product);
         return CurrCargoWeight;
     }
 
     public override string ToString()
     {
-        return base.ToString() + ", product type=" + PType.Name + ")";
+        return base.ToString() + ", product type=" + PType + ")";
     }
 }
