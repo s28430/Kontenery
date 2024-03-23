@@ -1,8 +1,7 @@
 namespace Containers.Products;
 
-public class Product(string type, double storageTemperature)
+public class Product(ProductType type, string name)
 {
-    public string Type { get; } = type;
-    
-    public double StorageTemperature { get; } = storageTemperature;
+    public string Name { get; } = name;
+    public ProductType Type { get; } = type;
 }

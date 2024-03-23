@@ -4,17 +4,30 @@ using Containers.Products;
 namespace Containers.Models;
 
 public class RefrigeratedContainer
-    (int height, double weight, int depth, double maxCapacity, string productType)
+    (int height, double weight, int depth, double maxCapacity, ProductType productType, double temperature)
     : BaseContainer("C", height, weight, depth, maxCapacity)
 {
     public List<Product> Products { get; } = [];
-    public string ProductType { get; } = productType;
+    public ProductType PType { get; } = productType;
+
+    private double _innerTemperature = temperature;
+    public double InnerTemperature
+    {
+        get => _innerTemperature;
+        
+        set
+        {
+            if (value < PType.StorageTemperature) 
+                throw new TooLowTemperatureException("Cannot set the inner temperature to less than " 
+                                                     + PType.StorageTemperature);
+        }
+    }
 
     public void AddProduct(Product product)
     {
-        if (ProductType != product.Type)
+        if (PType != product.Type)
             throw new UnsupportedProductType("Containers storing products of type <"
-                                             + ProductType + "> cannot store products of any other type.");
+                                             + PType + "> cannot store products of any other type.");
         Products.Add(product);
     }
     
@@ -30,6 +43,6 @@ public class RefrigeratedContainer
 
     public override string ToString()
     {
-        return base.ToString() + ", product type=" + ProductType + ")";
+        return base.ToString() + ", product type=" + PType.Name + ")";
     }
 }
