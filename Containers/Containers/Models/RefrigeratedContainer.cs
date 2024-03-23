@@ -36,9 +36,25 @@ public class RefrigeratedContainer
         throw new NotImplementedException();
     }
 
-    public override double LoadCargo(double weightToLoad)
+    public override double LoadCargo(double weightToLoad, Product? product)
     {
-        throw new NotImplementedException();
+        if (product is null)
+        {
+            Console.WriteLine("You have to specify a product you are loading to a refrigerated container. " +
+                              "Loading failed.");
+            return CurrCargoWeight;
+        }
+        if (PType != product.Type)
+            throw new UnsupportedProductType("Container " + SerialNumber +
+                                             " can store only products with type <" + PType.Name + ">. Loading failed");
+        
+        var newWeight = CurrCargoWeight + weightToLoad;
+        if (newWeight > MaxCapacity)
+            throw new OverfillException("Cargo weight is bigger than the container's capacity. Loading failed.");
+
+        CurrCargoWeight = newWeight;
+        Products.Add(product);
+        return CurrCargoWeight;
     }
 
     public override string ToString()

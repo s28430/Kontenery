@@ -1,6 +1,7 @@
 using Containers.Enums;
 using Containers.Exceptions;
 using Containers.Interfaces;
+using Containers.Products;
 
 namespace Containers.Models;
 
@@ -16,7 +17,7 @@ public class GasContainer(int height, double weight, int depth, double maxCapaci
         return weightToUnload;
     }
     
-    public override double LoadCargo(double weightToLoad)
+    public override double LoadCargo(double weightToLoad, Product? product)
     {
         var newWeight = CurrCargoWeight + weightToLoad;
         if (newWeight > MaxCapacity)

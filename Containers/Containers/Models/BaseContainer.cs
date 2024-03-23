@@ -1,3 +1,5 @@
+using Containers.Products;
+
 namespace Containers.Models;
 
 public abstract class BaseContainer(
@@ -27,7 +29,7 @@ public abstract class BaseContainer(
     public abstract double UnloadCargo();
 
     // returns a new weight of the container
-    public abstract double LoadCargo(double weightToLoad);
+    public abstract double LoadCargo(double weightToLoad, Product? product);
 
     public override string ToString()
     {
