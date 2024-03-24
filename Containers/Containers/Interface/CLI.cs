@@ -53,21 +53,24 @@ public class Cli
                 case "addCo":
                     AddContainer();
                     break;
+                case "rmSh":
+                    RemoveShip();
+                    break;
             }
         }
     }
-    
+
 
     private void ShowMenu()
     {
         Console.WriteLine("The list of ships:");
         if (_ships.Count == 0) Console.WriteLine("No ships");
-        else foreach (var ship in _ships) Console.WriteLine(ship);
+        else DisplayShips();
         Console.WriteLine();
         
         Console.WriteLine("The list of containers:");
         if (_containers.Count == 0) Console.WriteLine("No containers");
-        foreach (var container in _containers) Console.WriteLine(container);
+        else DisplayContainers();
         Console.WriteLine();
         
         Console.WriteLine("Possible actions:");
@@ -222,6 +225,38 @@ public class Cli
         catch (Exception)
         {
             Console.WriteLine("Provided value is invalid. Operation failed.");
+        }
+    }
+
+    private void DisplayShips()
+    {
+        foreach (var ship in _ships) Console.WriteLine(ship);
+    }
+
+    private void DisplayContainers()
+    {
+        foreach (var container in _containers) Console.WriteLine(container);
+    }
+    
+    private void RemoveShip()
+    {
+        Console.WriteLine("Choose a ship to remove by entering its id (it is specified as <id>):");
+        DisplayShips();
+
+        Console.WriteLine("Enter id:");
+        try
+        {
+            var input = int.Parse(Console.ReadLine());
+            for (var i = 0; i < _ships.Count; i++)
+                if (_ships[i].Id == input)
+                {
+                    Console.WriteLine(_ships[i] + " has been removed");
+                    _ships.RemoveAt(i);
+                }
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Invalid option. Operation failed.");
         }
     }
 }
