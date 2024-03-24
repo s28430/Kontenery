@@ -59,6 +59,9 @@ public class Cli
                 case "rmCo":
                     RemoveContainer();
                     break;
+                case "loadCoToSh":
+                    ContainerToShip();
+                    break;
             }
         }
     }
@@ -266,7 +269,7 @@ public class Cli
     {
         Console.WriteLine("Containers:");
         DisplayContainers();
-        Console.WriteLine("Enter the serial number of the container to remove (e.g. KON-G-1):");
+        Console.WriteLine("Enter the serial number of the container be to removed (e.g. KON-G-1):");
         var serialNumber = Console.ReadLine().ToUpper();
 
         var containerToRemove = _containers.Find(container => container.SerialNumber.Equals(serialNumber));
@@ -281,5 +284,40 @@ public class Cli
         
         _containers.Remove(containerToRemove);
         Console.WriteLine("Container " + containerToRemove + " has been removed.");
+    }
+    
+    private void ContainerToShip()
+    {
+        Console.WriteLine("Enter the serial number of the container to load onto the ship (e.g. KON-G-1):");
+        DisplayContainers();
+        try
+        {
+            var serialNumber = Console.ReadLine().ToUpper();
+            var containerToLoad = _containers.Find(container => container.SerialNumber == serialNumber);
+
+            if (containerToLoad is null) throw new Exception();
+
+            if (containerToLoad.IsOnShip)
+            {
+                Console.WriteLine("The chosen container is already on a ship.");
+                throw new Exception();
+            }
+            
+            Console.WriteLine("Choose a ship to load onto by entering its id (it is specified as <id>):");
+            DisplayShips();
+            
+            var id = int.Parse(Console.ReadLine());
+            var shipToLoadOnto = _ships.Find(ship => ship.Id == id);
+
+            if (shipToLoadOnto is null) throw new Exception();
+
+            shipToLoadOnto.LoadContainerToShip(containerToLoad);
+            containerToLoad.IsOnShip = true;
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Operation failed.");
+        }
+        
     }
 }

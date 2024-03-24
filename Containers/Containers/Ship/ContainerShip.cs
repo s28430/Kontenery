@@ -35,11 +35,6 @@ public class ContainerShip
     
     public bool LoadContainerToShip(BaseContainer container)
     {
-        if (container.IsOnShip)
-        {
-            Console.WriteLine("This container is already on some ship, it can't be loaded again.");
-            return false;
-        }
         if (FindContainer(container.SerialNumber) is not null)
         {
             Console.WriteLine("The container " + container.SerialNumber 

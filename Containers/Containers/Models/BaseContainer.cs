@@ -35,8 +35,8 @@ public abstract class BaseContainer(
 
     public override string ToString()
     {
-        return "Container " + SerialNumber + " (max capacity=" + MaxCapacity 
-               + ", own weight=" + Weight + ", curr cargo weight=" + CurrCargoWeight;
+        return "Container " + SerialNumber + " (maxCapacity=" + MaxCapacity 
+               + ", ownWeight=" + Weight + ", currCargoWeight=" + CurrCargoWeight + ", isOnShip=" + IsOnShip;
     }
     
     
