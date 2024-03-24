@@ -11,12 +11,12 @@ public abstract class BaseContainer(
 {
     private static int _nextId = 1;
     
-    public double CurrCargoWeight { get; protected set; }   // 0
+    public double CurrCargoWeight { get; protected set; }   // kg
     public int Height { get; } = height; // cm
     public double Weight { get; } = weight; // kg
     public int Depth { get; } = depth; // cm
     public string SerialNumber { get; } = GenerateSerialNumber(type);
-    public double MaxCapacity { get; } = maxCapacity;
+    public double MaxCapacity { get; } = maxCapacity;   // kg
 
     private static string GenerateSerialNumber(string type)
     {
