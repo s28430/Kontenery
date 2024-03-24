@@ -56,10 +56,12 @@ public class Cli
                 case "rmSh":
                     RemoveShip();
                     break;
+                case "rmCo":
+                    RemoveContainer();
+                    break;
             }
         }
     }
-
 
     private void ShowMenu()
     {
@@ -258,5 +260,26 @@ public class Cli
         {
             Console.WriteLine("Invalid option. Operation failed.");
         }
+    }
+    
+    private void RemoveContainer()
+    {
+        Console.WriteLine("Containers:");
+        DisplayContainers();
+        Console.WriteLine("Enter the serial number of the container to remove (e.g. KON-G-1):");
+        var serialNumber = Console.ReadLine().ToUpper();
+
+        var containerToRemove = _containers.Find(container => container.SerialNumber.Equals(serialNumber));
+
+        if (containerToRemove is null)
+        {
+            Console.WriteLine("Invalid option. Operation failed.");
+            return;
+        }
+
+        _ships.ForEach(ship => ship.RemoveContainerFromShip(containerToRemove));
+        
+        _containers.Remove(containerToRemove);
+        Console.WriteLine("Container " + containerToRemove + " has been removed.");
     }
 }

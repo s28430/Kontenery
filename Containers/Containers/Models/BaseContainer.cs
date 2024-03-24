@@ -18,6 +18,8 @@ public abstract class BaseContainer(
     public string SerialNumber { get; } = GenerateSerialNumber(type);
     public double MaxCapacity { get; } = maxCapacity;   // kg
 
+    public bool IsOnShip { get; set; } = false;
+
     private static string GenerateSerialNumber(string type)
     {
         var serialNumber = "KON-" + type + "-" + _nextId;
