@@ -148,7 +148,7 @@ public class ContainerShip
 
     public override string ToString()
     {
-        return "Ship " + Id + " (speed=" + MaxSpeed + ", maxContainerNum=" 
+        return "Ship <" + Id + "> (speed=" + MaxSpeed + ", maxContainerNum=" 
                + MaxNumberOfContainers + ", maxWeight=" + MaxWeight 
                + ", currentWeight=" + GetCurrTotalCargoWeight() + ")";
     }
